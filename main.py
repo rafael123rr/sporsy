@@ -24,7 +24,7 @@ import User
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        student = Student(name="Adina Wallis", university="U. Mich.")
+        player = User(name="Adina Wallis", university="U. Mich.")
         key = student.put()
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
