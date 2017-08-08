@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 import webapp2
-from database 
-import User
+from database import User
 
 
 
@@ -24,7 +23,29 @@ import User
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        player = User(name="Adina Wallis", university="U. Mich.")
+        user = users.get_current_user()
+        if user:
+            logout_link = users.create_logout_url('/')
+            logging.info('The user is logged in')
+            user_id = user.user_id()
+            if user_id not in users_data:
+                self.response.write(register_form)
+                return
+            name = User('name')
+            age = User('age')
+            birthday = User('birthday')
+            favorite_sport = User('favorite_sport')
+
+            self.response.write('Hello %s !' %
+            (name)
+            )
+
+
+
+
+
+    def post(self):
+        player = User(name = self.request.get("name"), age=self.request.get("age"), birthday = self.request. )
         key = student.put()
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
