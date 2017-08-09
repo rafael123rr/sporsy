@@ -22,17 +22,15 @@ import os
 
 jinja_environment = jinja2.Environment(
    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-#
-#add_item_from = 
-#<form action = "store_item" method = "post">
+
+# add_item_form = '''
+# <form action = "store_item" method = "post">
 #    Name: <input type = "text" name = "item_name"/><br>
 #    Quanity: <input type = "number" name = "item_quantity" min = 1/> <br>
 #    <input type = "submit"/>
 #
-#</form>
-
-
-
+# </form>
+# '''
 
 class storeItemHandler(webapp2.RequestHandler):
     def post(self):
@@ -41,11 +39,11 @@ class storeItemHandler(webapp2.RequestHandler):
 
         existing_item_query = ShoppingItem.query(ShoppingItem. name == item_name)
         existing_item = existing_item_query.get()
+
         if existing_item is not None:
             if item_quantity == 0:
                 existing_item.key.delete()
             else:
-
                 existing_item.quantity += item_quantity
                 existing_item.put()
         else:
@@ -57,8 +55,7 @@ class storeItemHandler(webapp2.RequestHandler):
 
 class AddItemHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(add_item_from)
-
+        self.response.write(add_item_form)
 
 class ShoppingItem(ndb.Model):
     name = ndb.StringProperty(required = True)
@@ -75,6 +72,11 @@ class Home(webapp2.RequestHandler):
             self.response.write('</ul>')
             self.response.write('<a href = "/add_item"> Add Items</a>')
         self.response.out.write(template.render())
+
+class ShoppingItem(ndb.Model):
+    name = ndb.StringProperty(required = True)
+    quantity = ndb.IntegerProperty(required = True)
+
 
 class Profile(webapp2.RequestHandler):
     def get(self):
@@ -99,12 +101,14 @@ class Baseball(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('template/baseball.html')
         self.response.out.write(template.render())
+
 app = webapp2.WSGIApplication([
     ('/', Home),
     ('/profile', Profile),
     ('/basketball', Basketball),
     ('/basketweaving', Basketweaving),
     ('/add_item', AddItemHandler),
-    ('/store_item',storeItemHandler)
-
+    ('/store_item',storeItemHandler),
+    ('/home', Home)
+    
 ], debug=True)
