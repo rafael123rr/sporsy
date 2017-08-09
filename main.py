@@ -66,7 +66,8 @@ class ShoppingItem(ndb.Model):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/home.html')
+        template = jinja_environment.get_template('templates/profile.html')
+        self.response.out.write(template.render())
         items_query = ShoppingItem.query()
         items = items_query.fetch()
         self.response.write('<ul>')
