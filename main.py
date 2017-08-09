@@ -64,7 +64,7 @@ class ShoppingItem(ndb.Model):
     name = ndb.StringProperty(required = True)
     quantity = ndb.IntegerProperty(required = True)
 
-class MainHandler(webapp2.RequestHandler):
+class Home(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/profile.html')
         items_query = ShoppingItem.query()
@@ -76,7 +76,7 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write('<a href = "/add_item"> Add Items</a>')
         self.response.out.write(template.render())
 
-class Home(webapp2.RequestHandler):
+class MainHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/home.html')
         self.response.out.write(template.render())
