@@ -22,16 +22,16 @@ import os
 
 jinja_environment = jinja2.Environment(
    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+#
+#add_item_from = 
+#<form action = "store_item" method = "post">
+#    Name: <input type = "text" name = "item_name"/><br>
+#    Quanity: <input type = "number" name = "item_quantity" min = 1/> <br>
+#    <input type = "submit"/>
+#
+#</form>
 
-add_item_from = '''
-<form action = "store_item" method = "post">
-    Name: <input type = "text" name = "item_name"/><br>
-    Quanity: <input type = "number" name = "item_quantity" min = 1/> <br>
-    <input type = "submit"/>
 
-</form>
-
-'''
 
 
 class storeItemHandler(webapp2.RequestHandler):
@@ -67,15 +67,14 @@ class ShoppingItem(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/profile.html')
-    
         items_query = ShoppingItem.query()
         items = items_query.fetch()
         self.response.write('<ul>')
         for item in items:
             self.response.write('<li>%s (%d) </li>' % (item.name, item.quantity))
-        self.response.write('</ul>')
-        self.response.write('<a href = "/add_item"> Add Items</a>')
-
+            self.response.write('</ul>')
+            self.response.write('<a href = "/add_item"> Add Items</a>')
+        self.response.out.write(template.render())
 
 class Home(webapp2.RequestHandler):
     def get(self):
