@@ -17,6 +17,11 @@
 import webapp2
 from google.appengine.ext import ndb
 import logging
+import jinja2
+
+jinja_environment = jinja2.Environment(
+   loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
 add_item_from = '''
 <form action = "store_item" method = "post">
     Name: <input type = "text" name = "item_name"/><br>
@@ -60,6 +65,7 @@ class ShoppingItem(ndb.Model):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        template = jinja_environment.get_template('templates/home.html')
         items_query = ShoppingItem.query()
         items = items_query.fetch()
         self.response.write('<ul>')
