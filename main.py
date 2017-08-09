@@ -66,7 +66,7 @@ class ShoppingItem(ndb.Model):
 
 class Home(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/profile.html')
+        template = jinja_environment.get_template('templates/home.html')
         items_query = ShoppingItem.query()
         items = items_query.fetch()
         self.response.write('<ul>')
@@ -76,16 +76,16 @@ class Home(webapp2.RequestHandler):
             self.response.write('<a href = "/add_item"> Add Items</a>')
         self.response.out.write(template.render())
 
-class MainHandler(webapp2.RequestHandler):
+class Profile(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/home.html')
+        template = jinja_environment.get_template('templates/profile.html')
         self.response.out.write(template.render())
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
+    ('/profile', Profile),
+    ('/', Home),
     ('/add_item', AddItemHandler),
-    ('/store_item',storeItemHandler),
-    ('/home', Home)
+    ('/store_item',storeItemHandler)
 
 ], debug=True)
