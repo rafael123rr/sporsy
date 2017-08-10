@@ -58,26 +58,33 @@ class ShoppingItem(ndb.Model):
 class Profile(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/profile.html')
-        self.response.out.write(template.render())
-
-
-
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-    #     template = jinja_environment.get_template('templates/home.html')
-    #     self.response.out.write(template.render())
         items_query = ShoppingItem.query()
         items = items_query.fetch()
         self.response.write('<ul>')
         for item in items:
             self.response.write('<li>%s (%d) </li>' % (item.name, item.quantity))
-        self.response.write('</ul>')
-        self.response.write('<a href = "/add_item"> Add Items</a>')
-app = webapp2.WSGIApplication([
-    ('/profile', Profile),
-    ('/', Home),
-    ('/add_item', AddItemHandler),
+            self.response.write('</ul>')
+            self.response.write('<a href = "/add_item"> Add Items</a>')
+        self.response.out.write(template.render())
+class Basketball(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('template/basketball.html')
+        self.response.out.write(template.render())
+class Basketweaving(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('template/basketeaving.html')
+        self.response.out.write(template.render())
+class Baseball(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('template/baseball.html')
+        self.response.out.write(template.render())
 
+app = webapp2.WSGIApplication([
+    ('/', Home),
+    ('/profile', Profile),
+    ('/basketball', Basketball),
+    ('/basketweaving', Basketweaving),
+    ('/add_item', AddItemHandler),
     ('/store_item',storeItemHandler),
     ('/home', Home)
 
